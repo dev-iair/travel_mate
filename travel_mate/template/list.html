@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+{% csrf_token %}
+    <div>
+      <div class="card-style" style="margin: 10px;">
+        <h6 class="mb-10" style="display: inline-block;">결제 내역</h6> <button onclick="location.href='/content/register/'" class="main-btn light-btn btn-hover btn-sm" style="margin-left: 10px;">추가</button>
+        <div class="table-wrapper table-responsive">
+          <table class="table striped-table">
+            <thead>
+              <tr>
+                <th><h6>결제자</h6></th>
+                <th><h6>내용</h6></th>
+                <th><h6>금액</h6></th>
+                <th><h6>인원</h6></th>
+                <th><h6>결제</h6></th>
+                <th><h6>삭제</h6></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in data %}
+              <tr>
+                <td>
+                  <p>{{ row.user_name }}</p>
+                </td>
+                <td>
+                  <p>{{ row.name }}</p>
+                </td>
+                <td>
+                  <p>{{ row.fee | intcomma  }}</p>
+                </td>
+                <td>
+                  <p>{{ row.total }}</p>
+                </td>
+                <td>
+                  <p>{{ row.pay | intcomma  }}</p>
+                </td>
+                <td>
+                  <div class="action">
+                    <button class="text-danger" onclick="delContent(this)" value="{{ row.idx }}" >
+                      <i class="lni lni-trash-can"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script>
+    const delContent = (e) =>{
+        let f = document.createElement('form');
+        let obj;
+        const token = document.getElementsByName('csrfmiddlewaretoken')[0]
+        f.setAttribute('method', 'post');
+        f.setAttribute('action', '{% url 'content:delete' %}');
+        obj = document.createElement('input');
+        obj.setAttribute('type', 'hidden');
+        obj.setAttribute('name', 'idx');
+        obj.setAttribute('value', e.value);
+        document.body.appendChild(f);
+        f.appendChild(token);
+        f.appendChild(obj);
+        f.submit();
+    }
+</script>
+{% endblock %}

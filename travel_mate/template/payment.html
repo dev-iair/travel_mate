@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+{% csrf_token %}
+    <div>
+      <div class="card-style" style="margin: 10px;">
+        <h6 class="mb-10" style="display: inline-block;">결제 내역</h6>
+        <div class="table-wrapper table-responsive">
+          <table class="table striped-table">
+            <thead>
+              <tr>
+                <th><h6>내용</h6></th>
+                <th><h6>금액</h6></th>
+                <th><h6>결제자</h6></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in data %}
+              <tr>
+                <td>
+                  <p>{{ row.content_idx__name }}</p>
+                </td>
+                <td>
+                  <p>{{ row.pay | intcomma  }}</p>
+                </td>
+                <td>
+                  <p>{{ row.content_idx__user_name }}</p>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

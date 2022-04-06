@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="card-style" style="margin: 10px;">
+  <form id="register" method="post" action="/content/register/">
+  {% csrf_token %}
+  <div class="input-style-1">
+    <label>결제 내용</label>
+    <input type="text" name="name" placeholder="결제 내용" />
+  </div>
+  <div class="input-style-1">
+    <label>결제 금액</label>
+    <input type="text" name="fee" placeholder="결제 금액" />
+  </div>
+  {% for name in user %}
+  {% if name != request.user.name %}
+  <div class="form-check checkbox-style mb-20">
+    <input
+      class="form-check-input"
+      name="nameCheck"
+      type="checkbox"
+      value="{{ name }}"
+    />
+    <label class="form-check-label">
+      {{ name }}</label
+    >
+  </div>
+  {% endif %}
+  {% endfor %}
+  <div style="text-align: center;">
+    <button class="main-btn primary-btn square-btn btn-hover btn-sm" style=" display: inline-block;">저장</button>
+  </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
